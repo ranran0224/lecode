@@ -40,9 +40,14 @@ public class A2_AddTwoNumbers {
         }
 
         ListNode(List<Integer> inList) {
-            Collections.reverse(inList);
-            OutUtil.printForList(inList);
-            this.val = 100;
+            if(inList == null && inList.isEmpty()){
+                return;
+            }
+            this.val = inList.get(0);
+            if(inList.size()>1){
+                inList.remove(0);
+                this.next = new ListNode(inList);
+            }
         }
 
         ListNode(int val, ListNode next) {
@@ -50,42 +55,59 @@ public class A2_AddTwoNumbers {
             this.next = next;
         }
 
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append( "\n{ListNode{val=").append(val).append(",next=");
+            if(this.next!=null){
+                sb.append(next.toString());
+            }else {
+                sb.append("{}");
+            }
+            sb.append("}");
+
+            return sb.toString();
+        }
     }
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         ListNode newListNode = new ListNode();
-        while (l1.val == 0 && l2.val == 0) {
-            //1.相加
-            int sumRes = l1.val + l2.val;
-            //2.进位
-            boolean jinwei = false;
-            if (sumRes > 10) {
-                sumRes = sumRes - 10;
-                jinwei = true;
-            }
-            //3.当前结构node存结果 存进位
-            newListNode.val += sumRes;
-            if(jinwei){
-                newListNode.next = new ListNode(1,new ListNode(0));
-            }
-            //4.指向下一个节点
-            l1 = l1.next;
-            l2 = l2.next;
-            newListNode = newListNode.next;
-
+        //递归出口
+        if (l1 == null && l2 == null) {
+            return null;
+        } else if (l1 == null) {
+            l1 = new ListNode(0);
+        } else if (l2 == null) {
+            l2 = new ListNode(0);
         }
-
+        //1.相加
+        int sumRes = l1.val + l2.val;
+        //2.进位，存进位到l1的next的val里
+        if (sumRes >= 10) {
+            sumRes = sumRes - 10;
+            if (l1.next != null) {
+                l1.next.val += 1;
+            } else {
+                l1.next = new ListNode(1);
+            }
+        }
+        //3.当前node.val存结果
+        newListNode.val += sumRes;
+        //4.递归
+        newListNode.next = addTwoNumbers(l1.next, l2.next);
         return newListNode;
     }
 
     public void ss() {
-        List<Integer> numList1 = new LinkedList(Arrays.asList(new Integer[]{2, 4, 3}));
-        List<Integer> numList2 = new LinkedList(Arrays.asList(new Integer[]{5,6,4}));
-        new ListNode(numList1);
-        addTwoNumbers(new ListNode(0),new ListNode(10,new ListNode()));
+        List<Integer> numList1 = new LinkedList(Arrays.asList(new Integer[]{9,9,9,9,9,9,9}));
+        List<Integer> numList2 = new LinkedList(Arrays.asList(new Integer[]{9,9,9,9}));
+        ListNode l1 = new ListNode(numList1);
+        ListNode l2 = new ListNode(numList2);
+        ListNode node = addTwoNumbers(l1, l2);
+        System.out.println(node.toString());
     }
 
     public static void main(String[] args) {
-       new A2_AddTwoNumbers().ss();
+        new A2_AddTwoNumbers().ss();
     }
 }
