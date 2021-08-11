@@ -27,7 +27,65 @@ public class A2_AddTwoNumbers {
      */
 
 
-    // Definition for singly-linked list.
+    //官方解法 使用while循环
+    class Solution {
+        public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+            ListNode head = null, tail = null;
+            int carry = 0;
+            while (l1 != null || l2 != null) {
+                int n1 = l1 != null ? l1.val : 0;
+                int n2 = l2 != null ? l2.val : 0;
+                int sum = n1 + n2 + carry;
+                if (head == null) {
+                    head = tail = new ListNode(sum % 10);
+                } else {
+                    tail.next = new ListNode(sum % 10);
+                    tail = tail.next;
+                }
+                carry = sum / 10;
+                if (l1 != null) {
+                    l1 = l1.next;
+                }
+                if (l2 != null) {
+                    l2 = l2.next;
+                }
+            }
+            if (carry > 0) {
+                tail.next = new ListNode(carry);
+            }
+            return head;
+        }
+    }
+
+    //递归方法，自己解答
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode newListNode = new ListNode();
+        //递归出口
+        if (l1 == null && l2 == null) {
+            return null;
+        } else if (l1 == null) {
+            l1 = new ListNode(0);
+        } else if (l2 == null) {
+            l2 = new ListNode(0);
+        }
+        //1.相加
+        int sumRes = l1.val + l2.val;
+        //2.进位，存进位到l1的next的val里
+        if (sumRes >= 10) {
+            sumRes = sumRes - 10;
+            if (l1.next != null) {
+                l1.next.val += 1;
+            } else {
+                l1.next = new ListNode(1);
+            }
+        }
+        //3.当前node.val存结果
+        newListNode.val += sumRes;
+        //4.递归
+        newListNode.next = addTwoNumbers(l1.next, l2.next);
+        return newListNode;
+    }
+
     public static class ListNode {
         int val;
         ListNode next;
@@ -70,33 +128,6 @@ public class A2_AddTwoNumbers {
         }
     }
 
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode newListNode = new ListNode();
-        //递归出口
-        if (l1 == null && l2 == null) {
-            return null;
-        } else if (l1 == null) {
-            l1 = new ListNode(0);
-        } else if (l2 == null) {
-            l2 = new ListNode(0);
-        }
-        //1.相加
-        int sumRes = l1.val + l2.val;
-        //2.进位，存进位到l1的next的val里
-        if (sumRes >= 10) {
-            sumRes = sumRes - 10;
-            if (l1.next != null) {
-                l1.next.val += 1;
-            } else {
-                l1.next = new ListNode(1);
-            }
-        }
-        //3.当前node.val存结果
-        newListNode.val += sumRes;
-        //4.递归
-        newListNode.next = addTwoNumbers(l1.next, l2.next);
-        return newListNode;
-    }
 
     public void ss() {
         List<Integer> numList1 = new LinkedList(Arrays.asList(new Integer[]{9,9,9,9,9,9,9}));
