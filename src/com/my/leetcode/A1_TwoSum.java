@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * @Description
  * @Author zhangyaran
- * @Date 2021/5/27 15:26
+ * @Date 2021/5/27
  */
 class A1_TwoSum {
     /**
