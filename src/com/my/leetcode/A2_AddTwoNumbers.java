@@ -27,7 +27,16 @@ public class A2_AddTwoNumbers {
      */
 
 
-    //官方解法 使用while循环
+    /**官方解法 使用while循环（循环次数：两个链表最长长度链）
+    链表分为head+tail，其中head为头，tail为当前链表指向。tail.next是当前链表指向的下一个
+        思路：
+         * 1.循环链表，范围两个都循环完毕
+         * 2.算出两数之和+上次进位=sum
+         * 3.1如果是结果链表head，sum%10（结果个位数）放在head，移动尾巴指向tail
+         * 3.2非head值，sum%10赋值新next，移动尾巴指向next
+         * 4.移动两个链表
+         * 5.进位sum/10赋值tail.next
+     **/
     class Solution {
         public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
             ListNode head = null, tail = null;
