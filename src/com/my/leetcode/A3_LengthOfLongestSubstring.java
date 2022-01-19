@@ -62,10 +62,11 @@ public class A3_LengthOfLongestSubstring {
      * 复杂度分析
      * <p>
      * 时间复杂度：O(N)，其中 N 是字符串的长度。左指针和右指针分别会遍历整个字符串一次。
+     * 循环次数：sum（每个字符为首，符合长度）
      * <p>
      * 空间复杂度：O(∣Σ∣)，其中Σ 表示字符集（即字符串中可以出现的字符），∣Σ∣ 表示字符集的大小。在本题中没有明确说明字符集，因此可以默认为所有 ASCII 码在 [0,128) 内的字符，即 ∣Σ∣=128。我们需要用到哈希集合来存储出现过的字符，而字符最多有 ∣Σ∣ 个，因此空间复杂度为 O(∣Σ∣)。
      */
-    //感觉右起点为rk+1更加好理解
+    //【感觉右起点为rk+1更加好理解】
     public int lengthOfLongestSubstring(String s) {
         // 哈希集合，记录每个字符是否出现过
         Set<Character> occ = new HashSet<Character>();
@@ -74,10 +75,10 @@ public class A3_LengthOfLongestSubstring {
         int rk = -1, ans = 0;
         for (int i = 0; i < n; ++i) {
             if (i != 0) {
-                // 左指针向右移动一格，移除一个字符
+                // 左指针向右移动一格，移除原始字符串s一个字符，以为此处上一个字符已经用窗口卡完最大符合条件，开始下一个字符为首的循环
                 occ.remove(s.charAt(i - 1));
             }
-            while (rk + 1 < n && !occ.contains(s.charAt(rk + 1))) {
+            while (rk + 1 < n && !occ.contains(s.charAt(rk + 1))) {//此处不算遍历？？？
                 // 不断地移动右指针
                 occ.add(s.charAt(rk + 1));
                 ++rk;
