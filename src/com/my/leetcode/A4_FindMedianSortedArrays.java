@@ -146,17 +146,19 @@ public class A4_FindMedianSortedArrays {
         int[] result = new int[nums1.length+nums2.length];
         int i = 0, j = 0;
         int cur = 0;
+        //谁小放谁到result里，放完结果集和小的数组游标都+1
         while(i < nums1.length && j <nums2.length && cur <= k){
             if(nums1[i] < nums2[j]) result[cur++] = nums1[i++];
             else result[cur++] = nums2[j++];
         }
+        //cur<=K说明还没取到，有一个长度过短了，循环另一个还有数的
         while(i < nums1.length && cur <=k) result[cur++] = nums1[i++];
         while(j < nums2.length && cur <=k) result[cur++] = nums2[j++];
         return result[cur-1];
     }
 
     /**
-     * 官方解法二：二分查找
+     * 官方解法二：二分查找(?????破想法，难理解，不如上面的)
      * 时间复杂度O(log(m+n))
      * 优点：时间复杂度最低
      * @param nums1
@@ -167,7 +169,7 @@ public class A4_FindMedianSortedArrays {
         int length = nums1.length + nums2.length;
         //选择长度较小的那个数组进行查找
         if(nums1.length > nums2.length) return findMedianSortedArrays(nums2,nums1);
-        if(nums1.length == 0){
+        if(nums1.length == 0){//一个为长度0，另一个直接得结果
             if(nums2.length % 2 != 0) return nums2[length/2];
             else return (nums2[length/2-1] + nums2[length/2])/2.0;
         }
@@ -180,8 +182,8 @@ public class A4_FindMedianSortedArrays {
             cur2 = (length+1)/2 - cur1;
             //计算出L1，R1，L2，R2
             double L1 = cur1 == 0 ? Integer.MIN_VALUE:nums1[cur1-1];
-            double R1 = cur1 == nums1.length ? Integer.MAX_VALUE:nums1[cur1];
             double L2 = cur2 == 0 ? Integer.MIN_VALUE:nums2[cur2-1];
+            double R1 = cur1 == nums1.length ? Integer.MAX_VALUE:nums1[cur1];
             double R2 = cur2 == nums2.length ? Integer.MAX_VALUE:nums2[cur2];
             //二分查找，重新划定边界
             if(L1 > R2) R_edge = cur1-1;
@@ -197,8 +199,10 @@ public class A4_FindMedianSortedArrays {
     }
 
     public static void main(String[] args) {
-        int[] arr1 = {2};
-        int[] arr2 = {};
-        System.out.println("arr1："+ Arrays.toString(arr1) +"\narr2："+Arrays.toString(arr2) +"\n数组中位数="+findMedianSortedArrays(arr1,arr2));
+//        int[] arr1 = {2};
+//        int[] arr2 = {};
+//        System.out.println("arr1："+ Arrays.toString(arr1) +"\narr2："+Arrays.toString(arr2) +"\n数组中位数="+findMedianSortedArrays(arr1,arr2));
+        int a = (int) (1.5-1);
+        System.out.println(a);
     }
 }
